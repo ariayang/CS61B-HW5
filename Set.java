@@ -110,7 +110,6 @@ public class Set {
 		  if (c.compareTo(acursor.item()) > 0) {
 		      acursor = acursor.next();
 		  }
-		  //acursor = acursor.next();
 	      }
 	      while (scursor != s.alist.back().next()) {
 		  Comparable c = (Comparable)scursor.item();
@@ -140,6 +139,35 @@ public class Set {
    **/
   public void intersect(Set s) {
     // Your solution here.
+       if (s.alist.isEmpty()) {
+	  alist = null;
+      }
+       else {
+	  try {
+	      ListNode scursor = s.alist.front(); //cursor in Set s
+	      ListNode acursor = alist.front(); // cursor in alist, to be updated once s insert items
+	      ListNode tempcursor = acursor;
+	      while (acursor != alist.back()) {
+		  Comparable c = (Comparable)scursor.item();
+		  if (c.compareTo(acursor.item()) < 0) {
+		      scursor = scursor.next();
+		  }
+		  if (c.compareTo(acursor.item()) == 0) {
+		      scursor = scursor.next();
+		      acursor = acursor.next();
+		  }
+		  if (c.compareTo(acursor.item()) > 0) {
+		      tempcursor = acursor.next();
+		      acursor.remove();
+		      acursor = tempcursor;
+		  }
+	      }
+	      
+	  }
+	  catch (InvalidNodeException e) { System.out.println("Error: " + e);}   
+      }
+       
+      
   }
 
   /**
