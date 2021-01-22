@@ -9,7 +9,7 @@ import list.*;
 public class Set {
   /* Fill in the data fields here. */
     //ListNode head;
-    protected SList alist;
+    protected DList alist;
 
     //public interface Comparable T; included in java.lang
     
@@ -29,7 +29,7 @@ public class Set {
   public Set() { 
     // Your solution here.
       //super() compiled, but toString overflowed;  //Why can't i use 'this' for the code below? Compiling erros.
-      alist = new SList();
+      alist = new DList();
       
   }
 
@@ -54,23 +54,28 @@ public class Set {
   public void insert(Comparable c) {
     // Your solution here.
     
-      if (alist.isEmpty()) {
+      if (alist.isEmpty()) {  //If empty, insert the first node.
 	  alist.insertFront(c);
       }
       else try {
-	    ListNode cursor = alist.front();
-	  if (c.compareTo(cursor.item()) < 0) {
-	      alist.insertFront(c);
-	  }
-	  else {
-	      while (c.compareTo(cursor.item()) < 0 || cursor != alist.back()) {
-		  cursor = cursor.next();
+	      ListNode cursor = alist.front();
+	      while (cursor.isValidNode()) {
+		  if (c.compareTo(cursor.item()) < 0) {  //Insert if smaller than current element
+		      cursor.insertBefore(c);
+		      break;
+		  }
+		  else if (c.compareTo(cursor.item()) > 0) {
+			  if (cursor == alist.back()) {
+			      alist.insertBack(c);  //Insert if still larger than last element
+			  }
+			  else {cursor = cursor.next();  //Keep moving cursor until it's smaller.
+			  }
+		  }
+		  else {
+		      break;  //Break the loop if equal
+		  }
 	      }
-	      if (c.compareTo(cursor.item()) != 0) {
-	      cursor.insertAfter(c);
-	      }
 	  }
-      }
       catch (InvalidNodeException e) { System.out.println("Error: " + e);} 
   }
 
@@ -197,14 +202,20 @@ public class Set {
     System.out.println("Empty Set() is: (Testing toString, constructor)  " + s);
     System.out.println("Length is: " + s.cardinality());
     s.insert(new Integer(3));
+    //System.out.println("After first insert, 3:  " + s);
     s.insert(new Integer(4));
+    //System.out.println("After inserting 3, 4: " + s);
     s.insert(new Integer(3));
+    //System.out.println("After inserting 3 4 3: " + s);
     System.out.println("Set s = " + s);
 
     Set s2 = new Set();
     s2.insert(new Integer(4));
+    //System.out.println("After first insert, 4:  " + s2);
     s2.insert(new Integer(5));
+    //System.out.println("After inserting 5:  " + s2);
     s2.insert(new Integer(5));
+    //System.out.println("After inserting another 5:  " + s2);
     System.out.println("Set s2 = " + s2);
 
     Set s3 = new Set();
@@ -212,6 +223,18 @@ public class Set {
     s3.insert(new Integer(3));
     s3.insert(new Integer(8));
     System.out.println("Set s3 = " + s3);
+
+    Set s4 = new Set();
+    s4.insert(new Integer(5));
+    s4.insert(new Integer(2));
+    s4.insert(new Integer(4));
+    s4.insert(new Integer(2));
+    s4.insert(new Integer(7));
+    s4.insert(new Integer(1));
+    s4.insert(new Integer(6));
+    //System.out.println("Set s4, inserting 5 2 4 2 7 1 6: " + s4);
+    s4.insert(new Integer(3));
+    System.out.println("Set s4 = " + s4);
 
     s.union(s2);
     System.out.println("After s.union(s2), s = " + s);
