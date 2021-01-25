@@ -56,8 +56,9 @@ public class Set {
     
       if (alist.isEmpty()) {  //If empty, insert the first node.
 	  alist.insertFront(c);
+	  return;
       }
-      else try {
+      try {
 	      ListNode cursor = alist.front();
 	      while (cursor.isValidNode()) {
 		  if (c.compareTo(cursor.item()) < 0) {  //Insert if smaller than current element
