@@ -61,6 +61,7 @@ public class Set {
       try {
 	      ListNode cursor = alist.front();
 	      while (cursor.isValidNode()) {
+		  // TODO this loop could be simplified a little bit to just break at the correct place to insert
 		  if (c.compareTo(cursor.item()) < 0) {  //Insert if smaller than current element
 		      cursor.insertBefore(c);
 		      break;
