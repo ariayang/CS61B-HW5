@@ -106,24 +106,30 @@ public class Set {
 	      ListNode scursor = s.alist.front(); //cursor in Set s
 	      ListNode acursor = alist.front(); // cursor in alist, to be updated once s insert items
 	      while (acursor != alist.back()) {
-		  Comparable c = (Comparable)scursor.item();
+		  // would use a different variable name than c that makes it more obviously coming from Set s. maybe sItem
+		  Comparable c = (Comparable) scursor.item();
 		  if (c.compareTo(acursor.item()) < 0) {
 		      acursor.insertBefore(scursor.item());
+		      // TODO handle case where scursor.next() is not a valid node.
+		      // expose the issue first in a test.
 		      scursor = scursor.next();
 		  }
-		  if (c.compareTo(acursor.item()) == 0) {
+		  else if (c.compareTo(acursor.item()) == 0) {
 		      scursor = scursor.next();
 		  }
-		  if (c.compareTo(acursor.item()) > 0) {
+		  else {
+		  // else if (c.compareTo(acursor.item()) > 0) {
 		      acursor = acursor.next();
 		  }
 	      }
-	      while (scursor != s.alist.back().next()) {
-		  Comparable c = (Comparable)scursor.item();
+	      // acursor is on last valid node
+	      while (scursor != s.alist.back().next()) {  // TODO change to scursor.isValidNode()
+		  Comparable c = (Comparable) scursor.item();
 		  if (c.compareTo(acursor.item()) > 0) {
 		      acursor.insertAfter(scursor.item());
 		      acursor = acursor.next();
 		  }
+		  // TODO what about other condition where c.compareTo < 0
 		  scursor = scursor.next();
 	      }	      
 	  }
